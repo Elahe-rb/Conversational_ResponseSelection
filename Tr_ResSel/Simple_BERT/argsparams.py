@@ -36,12 +36,12 @@ parser.add_argument("--epochs",
                     help="Total number of training epochs to perform.")
 parser.add_argument("--save_path",
                     #default="./Fine-Tuning/FT_checkpoint/",
-                    default="../../data/BERT/FT_checkpoint/",
+                    default="../../../../data/BERT/FT_checkpoint/",
                     type=str,
                     help="The path to save model.")
 parser.add_argument("--score_file_path",
                     #default="./Fine-Tuning/scorefile.txt",
-                    default="../../data/BERT/scorefile.txt",
+                    default="../../../../data/BERT/scorefile.txt",
                     type=str,
                     help="The path to save model.")
 parser.add_argument("--do_lower_case", action='store_true', default=True,

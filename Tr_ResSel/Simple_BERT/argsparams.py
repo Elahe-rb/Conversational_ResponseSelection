@@ -6,7 +6,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 #Dataset path.
 FT_data={
-    'ubuntu': '../../data/BERT/ubuntu_data/ubuntu_dataset_1M.pkl',   #'ubuntu': 'ubuntu_data/ubuntu_dataset_1M.pkl'
+    'ubuntu': '../../../../data/BERT/ubuntu_data/ubuntu_dataset_1M.pkl',   #'ubuntu': 'ubuntu_data/ubuntu_dataset_1M.pkl'
     'douban': 'douban_data/douban_dataset_1M.pkl',
     'e_commerce': 'e_commerce_data/e_commerce_dataset_1M.pkl'
 }

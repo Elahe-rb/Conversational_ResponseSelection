@@ -6,7 +6,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 #Dataset path.
 FT_data={
-    'ubuntu': 'ubuntu_data/ubuntu_dataset_1M.pkl',
+    'ubuntu': '../../data/BERT/ubuntu_data/ubuntu_dataset_1M.pkl',   #'ubuntu': 'ubuntu_data/ubuntu_dataset_1M.pkl'
     'douban': 'douban_data/douban_dataset_1M.pkl',
     'e_commerce': 'e_commerce_data/e_commerce_dataset_1M.pkl'
 }
@@ -18,7 +18,7 @@ parser.add_argument("--task",
                     type=str,
                     help="The dataset used for training and test.")
 
-parser.add_argument("--is_training",
+parser.add_argument("--/is_training",
                     action='store_true',
                     help="Training model or testing model?")
 
@@ -35,11 +35,13 @@ parser.add_argument("--epochs",
                     type=float,
                     help="Total number of training epochs to perform.")
 parser.add_argument("--save_path",
-                    default="./Fine-Tuning/FT_checkpoint/",
+                    #default="./Fine-Tuning/FT_checkpoint/",
+                    default="../../data/BERT/FT_checkpoint/",
                     type=str,
                     help="The path to save model.")
 parser.add_argument("--score_file_path",
-                    default="./Fine-Tuning/scorefile.txt",
+                    #default="./Fine-Tuning/scorefile.txt",
+                    default="../../data/BERT/scorefile.txt",
                     type=str,
                     help="The path to save model.")
 parser.add_argument("--do_lower_case", action='store_true', default=True,

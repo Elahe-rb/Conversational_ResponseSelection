@@ -22,6 +22,7 @@ if __name__ == '__main__':
         #dict <class 'dict'>:{
         #'y' {list} <class 'list' (int)>   (for train 1000000, test and dev 5000000)  #label
         #'cr' {list} <class 'list' (int)>             #consequtive context and response with differnet size
+        print("loading data...")
         train, dev, test = pickle.load(f, encoding='ISO-8859-1')
 
     args.is_training = True

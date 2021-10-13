@@ -190,9 +190,11 @@ class NeuralNetwork(nn.Module):
 
         if torch.cuda.is_available(): self.cuda()
 
+        print("building dataset ...")
         dataset = BERTDataset(self.args, train,self.bert_tokenizer)
         sampler = RandomSampler(dataset)
         dataloader = DataLoader(dataset, batch_size=self.args.batch_size, sampler=sampler,num_workers=2)
+        print("data built")
 
         self.loss_func = nn.BCELoss()
         no_decay = ['bias', 'LayerNorm.weight']

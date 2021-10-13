@@ -26,6 +26,7 @@ if __name__ == '__main__':
 
     args.is_training = True
     if args.is_training==True:
+        print("start training...")
         train_model(train,dev)
         test_model(test)
     else:

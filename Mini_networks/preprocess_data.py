@@ -355,14 +355,17 @@ def clean_data(rows):
     return normalized_rows
 
 
-def readFile(args, file, name):
+def readFile(args, file, name, has_header):
 
     if args.dataset == "UDC":
         reader = csv.reader(open(file))
-        rows = list(reader)[0:]    #no column name for aug data
     elif args.dataset == "MSDialog":
         reader = csv.reader(open(file), delimiter="\t")
+    if has_header:
+        rows = list(reader)[1:]
+    else:
         rows = list(reader)[0:]
+
     print(f'# {name}_samples::{len(rows)}')
 
     if args.doClean:
@@ -372,10 +375,10 @@ def readFile(args, file, name):
 
 
 def load_Data(args, mini_params):
-    train = readFile(args,mini_params['train_path'],'train')
+    train = readFile(args,mini_params['train_path'],'train', False)
     random.shuffle(train)
-    valid = readFile(args,mini_params['valid_path'],'valid')
-    test = readFile(args,args.dataPath+"/test.csv",'test')
+    valid = readFile(args,mini_params['valid_path'],'valid', False)
+    test = readFile(args,args.dataPath+"/test.csv",'test', True)
     # if args.dataset == "UDC":
     #     print('converting udc format to msdialog ...')
     #     train, valid, test = convert_udc_format_to_msdialog(train,valid,test,args)

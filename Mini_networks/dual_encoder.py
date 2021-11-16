@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from torch.nn import init
 import torch.nn.functional as F
-from NonTr_ResSel import preprocess_data
+import preprocess_data
 
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

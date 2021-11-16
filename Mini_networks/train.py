@@ -1,7 +1,7 @@
 import torch
 import math
 import random
-from NonTr_ResSel import preprocess_data
+import preprocess_data
 
 
 #train for each epoch

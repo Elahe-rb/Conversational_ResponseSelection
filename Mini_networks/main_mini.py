@@ -81,7 +81,7 @@ def run_mini_network(mini_net_params):
     losses = [1]
 
     ################################## train and validation ##############################
-    for epoch in range(num_epochs):
+    for epoch in range(1):#num_epochs):
 
         ## shuffle train data for each epoch
         # random.shuffle(train_rows)

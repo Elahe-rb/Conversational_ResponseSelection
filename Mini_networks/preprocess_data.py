@@ -379,6 +379,7 @@ def load_Data(args, mini_params):
     random.shuffle(train)
     valid = readFile(args,mini_params['valid_path'],'valid', False)
     test = readFile(args,args.dataPath+"/test.csv",'test', True)
+    test = convert_udc_valid_test_format_to_msdialog(test, args)
     # if args.dataset == "UDC":
     #     print('converting udc format to msdialog ...')
     #     train, valid, test = convert_udc_format_to_msdialog(train,valid,test,args)

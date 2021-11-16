@@ -35,16 +35,6 @@ def evaluate(model,loss_fn, rows, batch_size, epoch, num_epochs, vocab, max_utt_
             num_correct = (pred == ys.byte()).sum().item()
             total_acc += num_correct
 
-            description = 'valid: [{}/{}][{}/{}] curr loss: {:.3f}, Loss: {:.3f}, Acc: {:.3f}'.format(
-                epoch + 1, num_epochs,
-                batch + 1, num_batches,
-                loss.item(),
-                total_loss / (batch_size * batch + output.size(0)),
-                total_acc / (batch_size * batch + output.size(0)))
-            # if batch % log_interval == 0:
-            # print(description)
-            # print(total_loss / (batch_size * batch + output.size(0)))
-
         return total_loss / (batch_size * batch + output.size(0))
 
     else:

@@ -95,6 +95,7 @@ def run_mini_network(mini_net_params):
                                            vocab, max_conv_utt_num, max_utterance_length, device,
                                                             '', args, False)
 
+        print("################ validation loss:: " + valid_loss + " ####################")
         # Save the model if the validation loss is the best we've seen so far.
         if not best_val_metric or valid_loss < best_val_metric:
             torch.save(model.state_dict(), mini_net_params['save_model_path'])

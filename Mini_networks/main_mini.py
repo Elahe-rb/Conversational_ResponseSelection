@@ -106,7 +106,7 @@ def run_mini_network(mini_net_params):
     model.to(device)
 
     # Run on test data.
-    test_R1, test_R2, test_R5, test_acc = evaluate.evaluate(model, test_rows, evaluate_batch_size, 0, num_epochs, vocab,
+    test_R1, test_R2, test_R5, test_acc = evaluate.evaluate(model, loss_fn, test_rows, evaluate_batch_size, 0, num_epochs, vocab,
                                                             max_conv_utt_num, max_utterance_length, device,
                                                             '', args, True)
 

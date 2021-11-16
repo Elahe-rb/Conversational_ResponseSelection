@@ -58,7 +58,7 @@ def evaluate(model,loss_fn, rows, batch_size, epoch, num_epochs, vocab, max_utt_
                 better_count = sum(1 for val in each_context_result[1:] if val >= each_context_result[0])
                 count[better_count] += 1  # the model selected response is in betther count position
                 # mrr += np.reciprocal((ranks + 1).astype(float)).sum()
-                if each_context_result[0] > 0.5:  # here acc is the number of tp+tn/total
+                if each_context_result[0] > 0.7:  # here acc is the number of tp+tn/total
                     acc += 1
                 acc += sum(1 for val in each_context_result[1:] if val <= 0.5)
             # batch+=1

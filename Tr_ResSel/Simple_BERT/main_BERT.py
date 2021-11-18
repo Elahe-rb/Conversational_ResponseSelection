@@ -1,5 +1,6 @@
 import time
 import argparse
+import numpy as np
 import pickle
 import os
 from finetuning import NeuralNetwork
@@ -18,32 +19,35 @@ def eval_model(test):
 
 if __name__ == '__main__':
     start = time.time()
-    with open(FT_data[args.task]+"train_1M.pkl", 'rb') as f:
+    #with open(FT_data[args.task]+"train_1M.pkl", 'rb') as f:
         #format of train, test and dev
         #dict <class 'dict'>:{
         #'y' {list} <class 'list' (int)>   (for train 1000000, test and dev 5000000)  #label
         #'cr' {list} <class 'list' (int)>             #consequtive context and response with differnet size
-        print("loading train data...")
-        train = pickle.load(f, encoding='ISO-8859-1')
-    with open(FT_data[args.task]+"valid_1M.pkl", 'rb') as f:
+    print("loading train data...")
+    train = np.load(FT_data[args.task]+'train_1M_optimized.npy',allow_pickle=True)
+        #train = pickle.load(f, encoding='ISO-8859-1')
+    #with open(FT_data[args.task]+"valid_1M.pkl", 'rb') as f:
         #format of train, test and dev
         #dict <class 'dict'>:{
         #'y' {list} <class 'list' (int)>   (for train 1000000, test and dev 5000000)  #label
         #'cr' {list} <class 'list' (int)>             #consequtive context and response with differnet size
-        print("loading valid data...")
-        dev = pickle.load(f, encoding='ISO-8859-1')
+    print("loading valid data...")
+    dev = np.load(FT_data[args.task] + 'dev_1M_optimized.npy', allow_pickle=True)
+        #dev = pickle.load(f, encoding='ISO-8859-1')
 
     args.is_training = True
     if args.is_training==True:
         print("start training...")
         train_model(train,dev)
-        with open(FT_data[args.task] + "test_1M.pkl", 'rb') as f:
+        #with open(FT_data[args.task] + "test_1M.pkl", 'rb') as f:
             # format of train, test and dev
             # dict <class 'dict'>:{
             # 'y' {list} <class 'list' (int)>   (for train 1000000, test and dev 5000000)  #label
             # 'cr' {list} <class 'list' (int)>             #consequtive context and response with differnet size
-            print("loading test data...")
-            test = pickle.load(f, encoding='ISO-8859-1')
+        print("loading test data...")
+        test = np.load(FT_data[args.task] + 'test_1M_optimized.npy', allow_pickle=True)
+            #test = pickle.load(f, encoding='ISO-8859-1')
 
         eval_model(test)
     else:

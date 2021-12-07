@@ -192,7 +192,7 @@ class Encoder(nn.Module):
             device)  # dimensions: (batch_size x 1 x 1) and lastly --> (batch_size x 1)
 
         #these two lines just used for top networks
-        scores = scores.view(-1, 1)
+        scores = scores.view(-1, 1).to(device)
         res = (ans.mm(self.M1).to(device)) + (scores.mm(self.M2).to(device))
 
         results = torch.sigmoid(res)  # dim: batchsize * 1

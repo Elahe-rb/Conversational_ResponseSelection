@@ -120,7 +120,7 @@ nltk.download('punkt')
 def read_clusters(args,filename):
     with open(os.path.join(args.dataPath, (filename+"_clusters.csv"))) as f:
         reader = csv.reader(f)
-        utt_clusters = list(reader)[0:19]
+        utt_clusters = list(reader)[0:]
     return utt_clusters
 
 
@@ -217,9 +217,10 @@ def numberize_rnn(data, vocab, max_utt_num, max_utt_length, device, cluster_ids,
         #numberized_row = []
 
         if is_mini_net:
-            cluster = int(dialog_cluster_ids[idx][-1])  #get response cluster id
+            cluster = int(cluster_ids[idx][-1])  #get response cluster id
             vocab = vocabs[cluster]
             clusters.append(cluster)
+            idx+=1
 
         selected_turns = context[-min(max_utt_num, len(context)):]
         selected_words_in_turns = [words.split()[:min(len(words), max_utt_length)] for words in selected_turns]
@@ -246,7 +247,7 @@ def numberize_rnn(data, vocab, max_utt_num, max_utt_length, device, cluster_ids,
     rs = torch.stack(rs, 0).to(device)
     ys = torch.stack(ys, 0).to(device)
 
-    return cs, rs, ys, clusters
+    return cs, rs, ys, clusters       #dim: batchsize * seqlen   clusters dim: class list
 
 def get_batch(rows,batch,batch_size):
     start = batch * batch_size
@@ -374,7 +375,7 @@ def readFile(args, name):
 
     if args.dataset == "UDC":
         reader = csv.reader(open(os.path.join(args.dataPath,name+".csv")))
-        rows = list(reader)[1:20]    #the first line is just column names
+        rows = list(reader)[1:]    #the first line is just column names
     elif args.dataset == "MSDialog":
         reader = csv.reader(open(os.path.join(args.dataPath,name+".tsv")), delimiter="\t")
         rows = list(reader)[0:]

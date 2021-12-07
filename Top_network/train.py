@@ -63,8 +63,8 @@ def train(model, loss_fn, optimizer, train_rows, batch_size, epoch, num_epochs, 
 def getscoresFromlowLevelNetworks(cs, rs, clusters, models):
     scores = []
     for i in range(len(clusters)):
-        context = cs[i].view(1,cs.size(1),cs.size(2))
-        response = rs[i].view(1,rs.size(1),rs.size(2))
+        context = cs[i].view(1,cs.size(1))  #cs[i].view(1,cs.size(1),cs.size(2))
+        response = rs[i].view(1,rs.size(1)) #rs[i].view(1,rs.size(1),rs.size(2))
         scores.append(models[clusters[i]](context, response))
     scores = torch.tensor(scores)
     return scores

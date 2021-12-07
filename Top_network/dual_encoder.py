@@ -91,7 +91,7 @@ class Encoder(nn.Module):
 
         self.embedding.weight = nn.Parameter(embedding_weights, requires_grad=True)
 
-    def forward(self, contexts_features, responses_features):  #dim:b*seq*num_of_features (0:word_indx 1:df)
+    def forward(self, contexts_features, responses_features, scores):  #dim:b*seq*num_of_features (0:word_indx 1:df)
         #print("hello, in dual encoder in top_network dir!!")
         # contexts = contexts_features[:, :, 0].long()   #dim: b*seq
         # responses = responses_features[:, :, 0].long()
@@ -102,7 +102,7 @@ class Encoder(nn.Module):
         # c_tf_idf = torch.mul(c_idf,c_tf)   #element wise multiplication dim: b*seq <== a*b
         # r_tf_idf = torch.mul(r_idf, r_tf)  # element wise multiplication dim: b*seq <== a*b
         # results = self.att_on_embedding(contexts,responses, c_tf_idf, r_tf_idf)
-        results = self.att_on_embedding(contexts_features, responses_features, '', '')
+        results = self.att_on_embedding(contexts_features, responses_features, '', '', scores)
         #results = self.dmn_prf(contexts,responses, c_tf_idf, r_tf_idf)
 
         return results
@@ -117,11 +117,11 @@ class Encoder(nn.Module):
         output = weighted_average.transpose(1, 2)  # 512*1*300
         return output  # dim: b * 1 * hidden
 
-    def att_on_embedding(self, utterances, responses, c_tf_idf, r_tf_idf): #dim context:b*seq  response:b*seq
+    def att_on_embedding(self, utterances, responses, c_tf_idf, r_tf_idf, scores): #dim context:b*seq  response:b*seq
 
 
         #contexts = utterances.view(utterances.size(0),-1)   #dim context:b*seq    <===  b*max_turn*max_turn_length
-        contexts = torch.squeeze(utterances)  # dim context:b*maxLen    <===  b*1*maxLen
+        contexts = utterances #torch.squeeze(utterances)  # dim context:b*maxLen    <===  b*1*maxLen
 
         contexts_emb = self.embedding(contexts)     #dim: c
         responses_emb = self.embedding(responses)
@@ -191,63 +191,9 @@ class Encoder(nn.Module):
         ans = torch.bmm(context_rep, response_rep).view(-1, 1).to(
             device)  # dimensions: (batch_size x 1 x 1) and lastly --> (batch_size x 1)
 
-        results = torch.sigmoid(ans)  # dim: batchsize * 1
-        return results
-
-        contexts_emb = self.embedding(contexts)  # dim: c
-        responses_emb = self.embedding(responses)
-
-        context_os, context_hs = self.rnn(
-            contexts_emb)  # context_hs dimensions: ( (numlayers*num direction) * batch_size * hidden_size)
-        response_os, response_hs = self.rnn(
-            responses_emb)  # context_os dimensions: (batch_size * seq_length * hidden_size)
-        context_hs = context_hs[
-            -1]  # dim: b*h   ::get the hidden of last layer(for single layer this is same as context_hs.squeeze(0))
-        response_hs = response_hs[
-            -1]  # dim: batch_size * hidden_size <=== (numlayers*num direction) * batch_size * hidden_size
-
-        ##multiply by idf
-        # c_df = c_df.float()
-        # r_df = r_df.float()
-        # context_emb_idf = torch.mul(contexts_emb, c_tf_idf.unsqueeze(2).expand_as(contexts_emb))      #dim    <== b*seq*emb , b*seq
-        # response_emb_idf = torch.mul(responses_emb, r_tf_idf.unsqueeze(2).expand_as(responses_emb))
-
-        #### attention:
-        # context_att = self.attention(response_emb_idf, context_hs.view(-1, 1, self.rnn_h_size))  # b*1*hidden
-        # response_att = self.attention(context_emb_idf, response_hs.view(-1, 1, self.rnn_h_size))  # b*1*hidden <==
-
-        # context_att = self.attention(responses_emb, context_hs.view(-1, 1, self.rnn_h_size), r_tf_idf)  # b*1*hidden
-        # response_att = self.attention(contexts_emb, response_hs.view(-1, 1, self.rnn_h_size), c_tf_idf)  # b*1*hidden <==
-
-        ### concat with gru encoding
-        # context_concat = torch.cat((context_hs.unsqueeze(1), context_att), 2)  # b*1*(h+h)
-        # response_concat = torch.cat((response_hs.unsqueeze(1), response_att), 2)  # b*1*(h+h)
-        #
-        # context_enc = context_concat
-        # response_enc = response_concat
-        # response_enc = response_att
-        # context_enc = context_att
-
-        ##here needs context_enc and response_enc with dim: b* 1 * h
-        # context_enc = context_enc.squeeze(1)  # b*h <== b*1*h
-        # context_rep = context_enc.mm(self.M).to(device)  # dimensions: (batch_size x hidden_size)  <== (b*h) , (h*h)
-        # context_rep = context_rep.unsqueeze(1)  # dimensions: (batch_size x 1 x hidden_size)
-        # response_rep = response_enc.transpose(1, 2)  # dimensions: (batch_size x hidden_size x 1)
-
-        ### simple dual gru
-        # context = context_hs.mm(self.M).to(device)  # dimensions: (batch_size x hidden_size)  <== (b*h) , (h*h)
-        # context = context.view(-1, 1, self.rnn_h_size)  # dimensions: (batch_size x 1 x hidden_size)
-        # response = response_hs.view(-1, self.rnn_h_size, 1)  # dimensions: (batch_size x hidden_size x 1)
-
-        ### simple dual gru
-        context = context_hs.mm(self.M).to(device)  # dimensions: (batch_size x hidden_size)  <== (b*h) , (h*h)
-        context_rep = context.view(-1, 1, self.rnn_h_size)  # dimensions: (batch_size x 1 x hidden_size)
-        response_rep = response_hs.view(-1, self.rnn_h_size, 1)  # dimensions: (batch_size x hidden_size x 1)
-
-        ans = torch.bmm(context_rep, response_rep).view(-1, 1).to(
-            device)  # dimensions: (batch_size x 1 x 1) and lastly --> (batch_size x 1)
+        #these two lines just used for top networks
         scores = scores.view(-1, 1)
         res = (ans.mm(self.M1).to(device)) + (scores.mm(self.M2).to(device))
+
         results = torch.sigmoid(res)  # dim: batchsize * 1
-
-
+        return results

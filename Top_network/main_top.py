@@ -8,6 +8,7 @@ import csv
 from config_params import *
 from input_params import *
 import preprocess_data, train, dual_encoder, evaluate
+import NonTr_ResSel.dual_encoder
 
 #########################  Device configuration ###################################
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -49,11 +50,11 @@ test_clusters = preprocess_data.read_clusters(args, "test")
 
 vocabs = []
 models = []
-for cluster in range(1):#num_clusters):
+for cluster in range(num_clusters):
     vocab_path = os.path.join(args.dataPath, "mini_networks/vocab_") + str(cluster) + '.txt'
     voc = preprocess_data.load_vocab(vocab_path)
     vocabs.append(voc)
-    models.append(dual_encoder.Encoder(
+    models.append(NonTr_ResSel.dual_encoder.Encoder(
         vocab=voc,
         input_size=embed_dim,  # embedding dim
         hidden_size=hidden_size,  # rnn dim

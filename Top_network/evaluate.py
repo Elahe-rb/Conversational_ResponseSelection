@@ -21,7 +21,7 @@ def evaluate(model,rows, batch_size, epoch, num_epochs, vocab, device, args, voc
     #log_interval = math.ceil(num_batches / 5)
 
     for batch in range(num_batches):
-        cs, rs, ys = preprocess_data.process_data(rows, batch, batch_size, vocab, args, device)
+        cs, rs, ys, _ = preprocess_data.process_data(rows, batch, batch_size, vocab, args, device, clusters, vocabs, False)
         cs_mini, rs_mini, ys_mini, clusters_mini = preprocess_data.process_data(rows, batch, batch_size, vocab, args, device, clusters, vocabs, True)
 
         for j in range(int(len(cs) / 10)):  # for each context in batch with its ten candidate responses
@@ -32,9 +32,9 @@ def evaluate(model,rows, batch_size, epoch, num_epochs, vocab, device, args, voc
             better_count = sum(1 for val in each_context_result[1:] if val >= each_context_result[0])
             count[better_count] += 1  # the model selected response is in betther count position
             # mrr += np.reciprocal((ranks + 1).astype(float)).sum()
-            if each_context_result[0] > 0.5:  # here acc is the number of tp+tn/total
+            if each_context_result[0] > 0.7:  # here acc is the number of tp+tn/total
                 acc += 1
-            acc += sum(1 for val in each_context_result[1:] if val <= 0.5)
+            acc += sum(1 for val in each_context_result[1:] if val <= 0.7)
         #batch+=1
         '''
         description = (
@@ -63,8 +63,8 @@ def evaluate(model,rows, batch_size, epoch, num_epochs, vocab, device, args, voc
 def getscoresFromlowLevelNetworks(cs, rs, clusters, models):
     scores = []
     for i in range(len(clusters)):
-        context = cs[i].view(1,cs.size(1),cs.size(2))
-        response = rs[i].view(1,rs.size(1),rs.size(2))
+        context = cs[i].view(1,cs.size(1))  #cs[i].view(1,cs.size(1),cs.size(2))
+        response = rs[i].view(1,rs.size(1)) #rs[i].view(1,rs.size(1),rs.size(2))
         scores.append(models[clusters[i]](context, response))
     scores = torch.tensor(scores)
     return scores

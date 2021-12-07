@@ -26,7 +26,7 @@ def evaluate(model,rows, batch_size, epoch, num_epochs, vocab, device, args, voc
 
         for j in range(int(len(cs) / 10)):  # for each context in batch with its ten candidate responses
             sidx = j * 10
-            scores_miniModlule = getscoresFromlowLevelNetworks(cs_mini[sidx:sidx + 10], rs_mini[sidx:sidx + 10], clusters_mini, models)
+            scores_miniModlule = getscoresFromlowLevelNetworks(cs_mini[sidx:sidx + 10], rs_mini[sidx:sidx + 10], clusters_mini[sidx:sidx + 10], models)
             each_context_result = model(cs[sidx:sidx + 10], rs[sidx:sidx + 10], scores_miniModlule)
             each_context_result = [e.data.cpu().numpy() for e in each_context_result]
             better_count = sum(1 for val in each_context_result[1:] if val >= each_context_result[0])

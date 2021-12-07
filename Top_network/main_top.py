@@ -12,6 +12,7 @@ import NonTr_ResSel.dual_encoder
 
 #########################  Device configuration ###################################
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = True
 
@@ -42,7 +43,7 @@ def define_args():
 
 ################################
 args, _ = define_args().parse_known_args()
-print('HELLO!!')
+print('HELLO!!   ', device)
 
 train_clusters = preprocess_data.read_clusters(args, "train")
 valid_clusters = preprocess_data.read_clusters(args, "valid")

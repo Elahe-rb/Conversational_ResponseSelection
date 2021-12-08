@@ -20,7 +20,6 @@ parser.add_argument("--dataPath",
                     help="The dataset used for training and test.")
 
 parser.add_argument("--savePath",
-                    #default="./Fine-Tuning/FT_checkpoint/",
                     default=save_model_path,   #"../../../../data/BERT/FT_checkpoint/",
                     type=str,
                     help="The path to save model.")

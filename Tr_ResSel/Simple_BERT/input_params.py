@@ -7,4 +7,4 @@ FT_data={
 }
 
 data_file_path = FT_data[dataset]
-save_model_path = FT_data[dataset]+"outputs/"
+save_model_path = FT_data[dataset] + "outputs/"

@@ -59,7 +59,7 @@ parser.add_argument("--network_num",
 
 args = parser.parse_args()
 #args.savePath += args.task + '.' + "0.pt"
-args.score_file_path = args.score_file_path
+#args.score_file_path = args.score_file_path
 # load bert
 
 print(args)

@@ -145,7 +145,7 @@ class NeuralNetwork(nn.Module):
         self.init_clip_max_norm = 5.0
         self.optimizer = None
         self.best_result = [0, 0, 0, 0, 0, 0]
-        self.metrics = Metrics(self.args.score_file_path)
+        self.metrics = Metrics(self.args.savePath + "/scorefile_"+str(self.args.network_num)+".txt")
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
         config_class, model_class, tokenizer_class = MODEL_CLASSES['bert']
@@ -159,7 +159,7 @@ class NeuralNetwork(nn.Module):
 
         self.bert_model.resize_token_embeddings(len(self.bert_tokenizer))
         """You can load the post-trained checkpoint here."""
-        self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/ubuntu25/bert.pt"))
+        self.bert_model.bert.load_state_dict(state_dict=torch.load(args.savePath+str(args.task)+"_"+str(args.network_num)+".pt"))
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/douban27/bert.pt"))
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/e_commerce34/bert.pt"))
         
@@ -213,7 +213,7 @@ class NeuralNetwork(nn.Module):
             for i, data in tqdm(enumerate(dataloader)): 
                 if epoch >= 2 and self.patience >= 3:
                     print("Reload the best model...")
-                    self.load_state_dict(torch.load(self.args.save_path))
+                    self.load_state_dict(torch.load(self.args.savePath+str(self.args.task)+"_"+str(self.args.network_num)+".pt"))
                     self.adjust_learning_rate()
                     self.patience = 0
 
@@ -236,7 +236,7 @@ class NeuralNetwork(nn.Module):
 
     def evaluate(self, dev, is_test=False):
         y_pred = self.predict(dev)
-        with open(self.args.score_file_path, 'w') as output:
+        with open(self.args.savePath+"score_file_"+str(self.args.network_num)+".txt", 'w') as output:
             for score, label in zip(y_pred, dev['y']):
                 output.write(
                     str(score) + '\t' +
@@ -266,7 +266,7 @@ class NeuralNetwork(nn.Module):
                   "R5:", self.best_result[5])
             self.patience = 0
             self.best_result = result
-            torch.save(self.state_dict(), self.args.save_path)
+            torch.save(self.state_dict(), self.args.savePath+str(self.args.task)+"_"+str(self.args.network_num)+".pt")
             print("save model!!!\n")
         else:
             self.patience += 1

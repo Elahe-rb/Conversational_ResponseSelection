@@ -163,14 +163,14 @@ class NeuralNetwork(nn.Module):
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/douban27/bert.pt"))
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/e_commerce34/bert.pt"))
         
-        #self.bert_model = self.bert_model.cuda()
+        self.bert_model = self.bert_model.cuda()
 
     def forward(self):
         raise NotImplementedError
 
     def train_step(self, i, data):
         with torch.no_grad():
-            batch_ids, batch_mask, batch_seg, batch_y, batch_len = (item.cuda(device=self.device) for item in data)
+            batch_ids, batch_mask, batch_seg, batch_y, batch_len = (item.cuda() for item in data)
 
         self.optimizer.zero_grad()
 

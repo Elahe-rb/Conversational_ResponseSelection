@@ -159,7 +159,7 @@ class NeuralNetwork(nn.Module):
 
         self.bert_model.resize_token_embeddings(len(self.bert_tokenizer))
         """You can load the post-trained checkpoint here."""
-        self.bert_model.bert.load_state_dict(state_dict=torch.load(args.savePath+str(args.task)+"_"+str(args.network_num)+".pt"))
+        #self.bert_model.bert.load_state_dict(state_dict=torch.load(args.savePath+str(args.task)+"_"+str(args.network_num)+".pt"))
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/douban27/bert.pt"))
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/e_commerce34/bert.pt"))
         

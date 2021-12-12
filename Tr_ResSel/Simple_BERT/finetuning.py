@@ -163,7 +163,7 @@ class NeuralNetwork(nn.Module):
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/douban27/bert.pt"))
         #self.bert_model.bert.load_state_dict(state_dict=torch.load("./FPT/PT_checkpoint/e_commerce34/bert.pt"))
         
-        self.bert_model = self.bert_model.cuda()
+        #self.bert_model = self.bert_model.cuda()
 
     def forward(self):
         raise NotImplementedError

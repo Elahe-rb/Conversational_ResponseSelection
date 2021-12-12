@@ -18,7 +18,7 @@ def eval_model(test, arg_params):
 
 def run(arg_params):
     start = time.time()
-    with open("dataset_0.pkl", 'rb') as f:#(arg_params.dataPath + "dataset_" + str(arg_params.network_num) + ".pkl", 'rb') as f:
+    with open(arg_params.dataPath + "dataset_" + str(arg_params.network_num) + ".pkl", 'rb') as f:
         print("loading data...")
         train, dev, test = pickle.load(f, encoding='ISO-8859-1')
 

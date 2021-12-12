@@ -24,12 +24,12 @@ def run(arg_params):
 
     if arg_params.is_training == True:
         print("start training...")
-        train_model(train, dev)
+        train_model(train, dev, arg_params)
         print("test model...")
-        eval_model(test)
+        eval_model(test, arg_params)
     else:
         print("test model...")
-        eval_model(test)
+        eval_model(test, arg_params)
 
     end = time.time()
     print("use time: ", (end - start) / 60, " min")

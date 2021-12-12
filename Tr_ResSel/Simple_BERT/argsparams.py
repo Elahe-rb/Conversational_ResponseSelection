@@ -35,7 +35,7 @@ parser.add_argument("--task",
                     help="The dataset used for training and test.")
 
 parser.add_argument("--is_training",
-                    action='store_true',
+                    default=True,
                     help="Training model or testing model?")
 
 parser.add_argument("--batch_size",

@@ -146,7 +146,7 @@ class NeuralNetwork(nn.Module):
         self.optimizer = None
         self.best_result = [0, 0, 0, 0, 0, 0]
         self.metrics = Metrics(self.args.savePath + "/scorefile_"+str(self.args.network_num)+".txt")
-        self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         config_class, model_class, tokenizer_class = MODEL_CLASSES['bert']
 

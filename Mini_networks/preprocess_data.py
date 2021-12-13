@@ -362,7 +362,7 @@ def readFile(args, file, name, has_header):
     elif args.dataset == "MSDialog":
         reader = csv.reader(open(file), delimiter="\t")
     if has_header:
-        rows = list(reader)[1:]
+        rows = list(reader)[1:21]
     else:
         rows = list(reader)[0:]
 

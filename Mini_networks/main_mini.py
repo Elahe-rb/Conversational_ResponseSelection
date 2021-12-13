@@ -125,8 +125,8 @@ def run_mini_network(mini_net_params):
 ################ for hierarchical network ##################################
 for cluster in range(num_clusters):
     print("Learning network::: [ " + str(cluster) + " ] started ...")
-    out_mini_path = os.path.join(args.dataPath, "mini_networks/")
-    in_mini_path = os.path.join(args.dataPath, "aug_data/")
+    out_mini_path = os.path.join(args.dataPath, "mini_networks_20/")
+    in_mini_path = os.path.join(args.dataPath, "aug_data_20/")
     mini_net_params = {
     "train_path" : in_mini_path + "train_" + str(cluster) + '.csv',
     "valid_path" : in_mini_path + "valid_" + str(cluster) + '.csv',

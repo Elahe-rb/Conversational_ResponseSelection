@@ -50,7 +50,7 @@ def evaluate(model,loss_fn, rows, batch_size, epoch, num_epochs, vocab, max_utt_
                 # mrr += np.reciprocal((ranks + 1).astype(float)).sum()
                 if each_context_result[0] > 0.7:  # here acc is the number of tp+tn/total
                     acc += 1
-                acc += sum(1 for val in each_context_result[1:] if val <= 0.5)
+                acc += sum(1 for val in each_context_result[1:] if val <= 0.7)
             # batch+=1
             '''
             description = (

@@ -38,7 +38,7 @@ def train(model, loss_fn, optimizer, train_rows, batch_size, epoch, num_epochs, 
             #acc = ((output > 0).long() == ys.long()).sum().item()
 
         with torch.no_grad():
-            pred = output >= 0.5
+            pred = output >= 0.7
             num_correct = (pred == ys.byte()).sum().item()
             total_acc += num_correct
 

@@ -1,4 +1,4 @@
-num_clusters=16
+num_clusters=20
 
 num_epochs = 3
 learning_rate = 0.001
@@ -7,11 +7,11 @@ adam_beta2 = 0.999
 num_classes = 1
 
 DO_ClEAN = False
-IS_HIERARCHICAL = False
+IS_HIERARCHICAL = True
 min_freq = 1 #8  #10 for udc  #***** Tip ****:: 8 is ok for MSDialog
 
 dataset="UDC"#"UDC"
-model_name = 'Dual_GRU' #SMN_PAPER'#'Dual_GRU' #'SMN'   #or Dual_GRU
+model_name = 'SMN_PAPER' #Dual_GRU' #SMN_PAPER'#'Dual_GRU' #'SMN'   #or Dual_GRU
 
 
 #udc params

@@ -4,7 +4,7 @@ num_epochs = 2
 learning_rate = 1e-5
 dataset = "ubuntu"
 model_name = 'BERT'
-batch_size = 12
+batch_size = 6
 
 
 

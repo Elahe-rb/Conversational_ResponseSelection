@@ -21,7 +21,7 @@ def building_local_datasets(data_rows, cluster_rows, args, out_file):
 
     out_files = {}
     for num in range(num_clusters):
-        out_files[num] = open(os.path.join(args.dataPath+"/aug_data" , (out_file + "_" + str(num) + ".csv")), "w")
+        out_files[num] = open(os.path.join(args.dataPath+"/aug_data_20", (out_file + "_" + str(num) + ".csv")), "w")
 
     counter = 0
     utt_counter = 0
@@ -67,7 +67,7 @@ def classify_docs(batched_docs, model_classifier, feature_vectoreizer):
     return batched_utt_clusters
 
 def save_utts_cluster(rows, clusters, args, filename):
-    out_file = open(os.path.join(args.dataPath , (filename + "_" + "clusters.csv")), "w")
+    out_file = open(os.path.join(args.dataPath , (filename + "_" + "clusters_20.csv")), "w")
     i = 0
     for row in rows:
         line = row[0] + ","

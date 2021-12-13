@@ -7,7 +7,7 @@ import random
 
 from config_params_mini import *
 from input_params import *
-import preprocess_data, train, evaluate, dual_encoder
+import preprocess_data, train, evaluate, dual_encoder, smn
 
 #########################  Device configuration ###################################
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -55,6 +55,18 @@ def run_mini_network(mini_net_params):
 
     if args.modelName == 'Dual_GRU':
         model = dual_encoder.Encoder(
+            vocab=vocab,
+            input_size=embed_dim,  # embedding dim
+            hidden_size=hidden_size,  # rnn dim
+            vocab_size=vocab_size,  # vocab size
+            bidirectional=False,  # really should change!
+            rnn_type='gru',
+            num_layers=1,
+            dropout=dropout_rate,
+            emb_dir=args.embDir
+        )
+    elif args.modelName == 'SMN':
+        model = smn.SMN(
             vocab=vocab,
             input_size=embed_dim,  # embedding dim
             hidden_size=hidden_size,  # rnn dim

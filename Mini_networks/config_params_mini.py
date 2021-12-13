@@ -11,7 +11,7 @@ IS_HIERARCHICAL = True
 min_freq = 1 #8  #10 for udc  #***** Tip ****:: 8 is ok for MSDialog
 
 dataset="UDC"#"UDC"
-model_name = 'SMN_PAPER' #Dual_GRU' #SMN_PAPER'#'Dual_GRU' #'SMN'   #or Dual_GRU
+model_name = 'SMN' #Dual_GRU' #SMN_PAPER'#'Dual_GRU' #'SMN'   #or Dual_GRU
 
 
 #udc params

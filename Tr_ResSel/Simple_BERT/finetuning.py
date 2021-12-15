@@ -147,13 +147,13 @@ class NeuralNetwork(nn.Module):
         self.best_result = [0, 0, 0, 0, 0, 0]
         self.metrics = Metrics(self.args.savePath + "/scorefile_"+str(self.args.network_num)+".txt")
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+        print("program running on :",self.device)
         config_class, model_class, tokenizer_class = MODEL_CLASSES['bert']
 
         self.bert_config = config_class.from_pretrained(FT_model[args.task],num_labels=1)
         self.bert_tokenizer = BertTokenizer.from_pretrained(FT_model[args.task],do_lower_case=args.do_lower_case)
         special_tokens_dict = {'eos_token': '[eos]'}
-        num_added_toks = self.bert_tokenizer.add_special_tokens(special_tokens_dict)
+        self.bert_tokenizer.add_special_tokens(special_tokens_dict)
         self.bert_model = model_class.from_pretrained(FT_model[args.task],config=self.bert_config)
         
 

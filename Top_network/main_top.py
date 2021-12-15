@@ -8,7 +8,8 @@ import csv
 from config_params import *
 from input_params import *
 import preprocess_data, train, dual_encoder, evaluate
-import NonTr_ResSel.dual_encoder
+import mini_net_dual_encoder
+import mini_net_smn
 
 #########################  Device configuration ###################################
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -55,17 +56,30 @@ for cluster in range(num_clusters):
     vocab_path = os.path.join(args.dataPath, "mini_networks/vocab_") + str(cluster) + '.txt'
     voc = preprocess_data.load_vocab(vocab_path)
     vocabs.append(voc)
-    models.append(NonTr_ResSel.dual_encoder.Encoder(
-        vocab=voc,
-        input_size=embed_dim,  # embedding dim
-        hidden_size=hidden_size,  # rnn dim
-        vocab_size=len(voc),  # vocab size
-        bidirectional=False,  # really should change!
-        rnn_type='gru',
-        num_layers=1,
-        dropout=dropout_rate,
-        emb_dir=args.embDir
-    ))
+    if args.modelName == 'SMN':
+        models.append(mini_net_smn.SMN(
+            vocab=voc,
+            input_size=embed_dim,  # embedding dim
+            hidden_size=hidden_size,  # rnn dim
+            vocab_size=len(voc),  # vocab size
+            bidirectional=False,  # really should change!
+            rnn_type='gru',
+            num_layers=1,
+            dropout=dropout_rate,
+            emb_dir=args.embDir
+        ))
+    elif args.modelName == 'Dual_GRU':
+        models.append(mini_net_dual_encoder.Encoder(
+            vocab=voc,
+            input_size=embed_dim,  # embedding dim
+            hidden_size=hidden_size,  # rnn dim
+            vocab_size=len(voc),  # vocab size
+            bidirectional=False,  # really should change!
+            rnn_type='gru',
+            num_layers=1,
+            dropout=dropout_rate,
+            emb_dir=args.embDir
+        ))
     save_mini_model_path = os.path.join(args.dataPath, "mini_networks/saved_model_") + str(cluster) + '.pth'
     # Load the best saved model.
     models[cluster].load_state_dict(torch.load(save_mini_model_path, map_location=torch.device('cpu')))

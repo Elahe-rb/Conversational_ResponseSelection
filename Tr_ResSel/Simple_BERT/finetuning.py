@@ -188,7 +188,9 @@ class NeuralNetwork(nn.Module):
 
     def fit(self, train, dev):  
 
-        if torch.cuda.is_available(): self.cuda()
+        if torch.cuda.is_available():
+            self.cuda()
+            print("program running on cuda device")
 
         print("building dataset ...")
         dataset = BERTDataset(self.args, train,self.bert_tokenizer)

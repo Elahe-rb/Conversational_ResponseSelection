@@ -2,7 +2,7 @@
 #embedding_file_path = '../../../../data/glove.6B.200d.txt' #filename='../glove.6B.200d.txt'):  ut server and colab: : filename='../../data/glove.6B.200d.txt')
 
 ##colab
-data_file_path = '../../../../data/BERT/ubuntu_data/'  # MSDialog'     for colab:: #'../../ubuntu-s-l-t' for ut server:'../../data/ubuntu-s-l-t'   '../../data/MSDialog'
+data_file_path = '../../data/BERT/ubuntu_data/'  # MSDialog'     for colab:: #'../../ubuntu-s-l-t' for ut server:'../../data/ubuntu-s-l-t'   '../../data/MSDialog'
 embedding_file_path = '../../../../data/glove.6B.200d.txt' #filename='../glove.6B.200d.txt'):  ut server and colab: : filename='../../data/glove.6B.200d.txt')
 
 save_model_name = 'saved_model.pth'
